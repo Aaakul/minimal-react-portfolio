@@ -7,7 +7,6 @@ License: MIT
 
 ## How to use
 
-First, `git clone https://github.com/Aaakul/minimal-react-portfolio.git` or simply download from browser.
 Run `cd .\minimal-react-portfolio` to enter the project directory.
 
 ### For development: run `npm start`
