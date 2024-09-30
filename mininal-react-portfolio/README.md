@@ -1,6 +1,9 @@
-# Getting Started with Create React App
+## minimal-react-portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A simple single page style portfolio template.
+Made with React and Ant Design.
+
+License: MIT
 
 ## Available Scripts
 

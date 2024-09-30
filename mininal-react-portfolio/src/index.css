@@ -12,10 +12,40 @@ code {
     monospace;
 }
 
+/* mobile device */
+@media (max-width: 768px) {
+  #sider {
+    display: none !important;
+  }
+}
+
+.card p {
+  text-align: justify;
+}
+#anchor-container {
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+
+.header {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  .ant-anchor-link-title {
+    font-size: large;
+  }
+}
+
 .section {
-  margin-top: 40px;
   height: 100vh;
   text-align: center;
-  padding-left: 5%;
-  padding-right: 5%;
+  padding-left: 10%;
+  padding-right: 10%;
+}
+
+.card {
+  width: 50vw;
+  text-align: left;
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Space,
   Layout,
@@ -10,6 +10,9 @@ import {
   ConfigProvider,
   theme,
   List,
+  Card,
+  Row,
+  Col,
 } from "antd";
 import {
   GithubOutlined,
@@ -21,8 +24,11 @@ import {
   BilibiliOutlined,
 } from "@ant-design/icons";
 
+// Replace with your photo
+import profile from "./profile.png";
+
 const { Footer, Content } = Layout;
-const { Title, Paragraph, Link } = Typography;
+const { Title, Paragraph, Link, Text } = Typography;
 // Your favorite color
 const primColor = "#61dafb";
 
@@ -50,9 +56,6 @@ const items = [
   },
 ];
 
-// Replace with your photo
-const profile = "./logo192.png";
-
 // Set your links
 const links = {
   email: "mailto:yourname@mail.addr",
@@ -67,14 +70,23 @@ const links = {
 // Edit your content
 const about = (
   <Typography>
+    <br />
     <Avatar
       size={{ xs: 100, sm: 128, md: 160, lg: 200, xl: 240, xxl: 256 }}
       src={profile}
     />
-    <Title>Your name</Title>
-    <Title level={3}>Headline, degree, etc.</Title>
+    <Title>Hi, I am [Your name]</Title>
+    <Title level={4}>Headline, degree, etc.</Title>
 
-    <Title level={5}>
+    <Text
+      strong
+      style={{
+        fontSize: "large",
+        textAlign: "justify",
+        marginLeft: "10%",
+        marginRight: "10%",
+      }}
+    >
       Tell the world about yourself. Use @ant-design/icons below to link to your
       social media. For more details about those icons, visit:
       <a
@@ -82,12 +94,13 @@ const about = (
         target="_blank"
         rel="noopener noreferrer"
       >
-        {"  "}https://ant-design.antgroup.com/components/icon
+        {" "}
+        <u>https://ant-design.antgroup.com/components/icon</u>
       </a>
-    </Title>
+    </Text>
     <br />
 
-    <Space id="icons" style={{ fontSize: 32 }} size={"large"}>
+    <Space id="icons" style={{ fontSize: "x-large" }} size={"large"}>
       <a id="mail" href={links.email} target="_blank" rel="noopener noreferrer">
         <MailOutlined style={{ color: primColor }} />
       </a>
@@ -147,53 +160,69 @@ const about = (
         </Link>
       </Paragraph>
     </Paragraph>
-
+    <br />
     <Divider />
   </Typography>
 );
 
 // projects information
-const data = Array.from({ length: 5 }).map((_, i) => ({
-  href: "https://link.to.your.project",
-  title: `Project title ${i}`,
-  avatar: `https://image.about.your.project`,
-  content: "Summary of your project",
-}));
-
-// Experience
-const data2 = [
-  "Racing car sprays burning fuel into crowd.",
-  "Japanese princess to wed commoner.",
-  "Australian walks 100km after outback crash.",
-  "Man charged over missing wedding girl.",
-  "Los Angeles battles huge wildfires.",
+const projects = [
+  {
+    key: "1",
+    href: "https://link.to.your.project",
+    title: "Project1",
+    content: "Summary of your project",
+    img: `https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`,
+  },
+  {
+    key: "2",
+    href: "https://link.to.your.project",
+    title: "Project2",
+    content: "Summary of your project",
+    img: `https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`,
+  },
+  {
+    key: "3",
+    href: "https://link.to.your.project",
+    title: "Project3",
+    content: "Summary of your project",
+    img: `https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`,
+  },
+  {
+    key: "4",
+    href: "https://link.to.your.project",
+    title: "Project2",
+    content: "Summary of your project",
+    img: `https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png`,
+  },
 ];
 
 const App: React.FC = () => {
+  // Set scroll offset
+  const topRef = React.useRef<HTMLDivElement>(null);
+  const [targetOffset, setTargetOffset] = useState<number>();
+
+  useEffect(() => {
+    setTargetOffset(topRef.current?.clientHeight);
+  }, []);
+
   return (
     <ConfigProvider
       theme={{
+        // Dark mode
         algorithm: theme.darkAlgorithm,
         token: { colorPrimary: primColor },
-        components: {
-          Anchor: {
-            fontSize: 18,
-            linkPaddingBlock: 14,
-            linkPaddingInlineStart: 14,
-          },
-        },
       }}
     >
       <Layout>
         <FloatButton.BackTop visibilityHeight={100} />
-        <div id="anchor-container">
+        <div id="anchor-container" ref={topRef}>
           <Anchor
+            className="header"
+            targetOffset={targetOffset}
             replace
             direction="horizontal"
             items={items}
-            style={{
-              backdropFilter: "blur(10px)",
-            }}
           />
         </div>
         <Content>
@@ -205,6 +234,7 @@ const App: React.FC = () => {
             <Divider />
             <div id="list-container">
               <List
+                className="list"
                 bordered={true}
                 size="small"
                 itemLayout="vertical"
@@ -213,17 +243,11 @@ const App: React.FC = () => {
                   align: "center",
                   position: "top",
                 }}
-                dataSource={data}
+                dataSource={projects}
                 renderItem={(item) => (
                   <List.Item
                     key={item.title}
-                    extra={
-                      <img
-                        width={272}
-                        alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                      />
-                    }
+                    extra={<img width={200} alt="logo" src={item.img} />}
                   >
                     <List.Item.Meta
                       title={<a href={item.href}>{item.title}</a>}
@@ -235,15 +259,62 @@ const App: React.FC = () => {
             </div>
             <Divider />
           </div>
-          <div id="experience" className="section">
+          <div id="experience" className="section" style={{ height: "auto" }}>
             <Title>Experience</Title>
             <Divider />
-            <List
-              header={<div>Experience1</div>}
-              bordered
-              dataSource={data2}
-              renderItem={(item) => <List.Item>{item}</List.Item>}
-            />
+            <Row id="exp-container">
+              <Col id="sider">
+                <Anchor
+                  targetOffset={targetOffset}
+                  items={[
+                    {
+                      key: "1",
+                      href: "#Education",
+                      title: "Education",
+                    },
+                    {
+                      key: "2",
+                      href: "#Volunteer",
+                      title: "Volunteer",
+                    },
+                    {
+                      key: "3",
+                      href: "#Internship",
+                      title: "Internship",
+                    },
+                    {
+                      key: "4",
+                      href: "#Work",
+                      title: "Work",
+                    },
+                  ]}
+                />
+              </Col>
+              <Col id="cards" span={20}>
+                <Space direction="vertical" size={"large"}>
+                  <Card id="Education" title="Education" className="card">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                  </Card>
+                  <Card id="Volunteer" title="Volunteer" className="card">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                  </Card>
+                  <Card id="Internship" title="Internship" className="card">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                  </Card>
+                  <Card id="Work" title="Work" className="card">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                  </Card>
+                </Space>
+              </Col>
+            </Row>
             <Divider />
           </div>
           <div id="other" className="section">
